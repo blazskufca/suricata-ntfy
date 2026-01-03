@@ -10,6 +10,8 @@ for alert logs and sends formatted notifications to [ntfy](https://docs.ntfy.sh/
 - 🔄 **Log rotation handling** - Automatically handles log file rotation
 - 📝 **pfSense syslog integration** - Logs errors and warnings to pfSense system logs
 
+<img alt="ntfy Notification" src="https://github.com/user-attachments/assets/f7527fa6-ebc3-4a49-ac23-e7ff428646fa" />
+
 ## Installation
 
 ### Prerequisites
@@ -72,6 +74,8 @@ The template has access to all fields in Suricata's eve.json format. Common fiel
 ```
 
 ### Running as a service
+
+<img alt="Setup shellcmd" src="https://github.com/user-attachments/assets/a30e84f2-34ad-4c41-addb-3b2a2ef0ab9b" />
 
 
 ## Acknowledgments
