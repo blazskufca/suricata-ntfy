@@ -46,3 +46,9 @@ endpoint: https://ntfy.com/suricata-trailer
   #Title: Suricata Alert on pfSense
   #Priority: urgent
   #Content-type: text/plain
+
+# Allow 5 requests per second
+rate_limit: 5.0
+
+# Allow a sudden burst of 10 requests before slowing down
+burst: 10
