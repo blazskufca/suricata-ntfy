@@ -1,0 +1,48 @@
+# Template defines the format for the messages sent to the ntfy
+# See https://pkg.go.dev/text/template for templating syntax and https://docs.suricata.io/en/latest/output/eve/eve-json-output.html for log format
+template: |
+  ## 🚨 {{ .alert.signature }}
+
+  **Timestamp:** `{{ .timestamp }}`
+  **Severity:** {{ if eq .alert.severity 1.0 }}🔴 High{{ else if eq .alert.severity 2.0 }}🟠 Medium{{ else }}🟡 Low{{ end }} ({{ .alert.severity }})
+  **Action:** {{ .alert.action }}
+
+  ### 🌐 Network Details
+  - **Source:** `{{ .src_ip }}:{{ .src_port }}`
+  - **Destination:** `{{ .dest_ip }}:{{ .dest_port }}`
+  - **Protocol:** {{ .proto }}
+  - **Interface:** {{ .in_iface }}
+  {{ if .http }}{{ if .http.xff }}- **Client IP (X-Forwarded-For):** `{{ .http.xff }}`{{ end }}{{ end }}
+
+  {{ if .http }}### 📡 HTTP Information
+  - **Host:** {{ .http.hostname }}
+  - **Method:** `{{ .http.http_method }}`
+  - **URL:** `{{ .http.url }}`
+  - **User-Agent:** {{ .http.http_user_agent }}
+  {{ if .http.status }}- **Response Status:** {{ .http.status }}{{ end }}
+  {{ if .http.http_content_type }}- **Content-Type:** {{ .http.http_content_type }}{{ end }}
+  {{ end }}
+
+  ### 📊 Flow Statistics
+  - **Packets:** {{ .flow.pkts_toserver }} → {{ .flow.pkts_toclient }}
+  - **Bytes:** {{ .flow.bytes_toserver }} → {{ .flow.bytes_toclient }}
+  - **Flow Started:** {{ .flow.start }}
+
+  ### 🔍 Alert Classification
+  - **Category:** {{ .alert.category }}
+  - **Signature ID:** {{ .alert.gid }}:{{ .alert.signature_id }}:{{ .alert.rev }}
+  - **Flow ID:** {{ .flow_id }}
+
+# Path to EVE log files
+glob_path: /var/log/suricata/*/eve.json
+
+# Your NTFY topic and/or instance
+endpoint: https://ntfy.com/suricata-trailer
+
+# Custom Headers you want to forward to ntfy...See https://docs.ntfy.sh/publish/#publishing and similar
+#headers:
+  #Authorization: Bearer <your token>
+  #Markdown: yes
+  #Title: Suricata Alert on pfSense
+  #Priority: urgent
+  #Content-type: text/plain
